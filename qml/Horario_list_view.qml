@@ -6,7 +6,6 @@ ListView {
     id:horario
     required property Hour_model horario_model
     required property  bool can_book
-    required property MyPayPopUp popup
 
     clip:true
     flickableDirection:Flickable.VerticalFlick
@@ -16,7 +15,6 @@ ListView {
         width:horario.width
         height:width*0.2
         can_book:horario.can_book
-        popup:horario.popup
     }
 
 

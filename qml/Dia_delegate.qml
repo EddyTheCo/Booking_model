@@ -10,7 +10,6 @@ ColumnLayout
     required property  date day
     required property  Hour_model hour_model
     required property  bool can_book
-    required property MyPayPopUp popup
 
     Rectangle
     {
@@ -69,7 +68,6 @@ ColumnLayout
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignHCenter
 
-        popup:dia_delegate.popup
         can_book:dia_delegate.can_book
         horario_model: dia_delegate.hour_model
 

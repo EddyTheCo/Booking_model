@@ -16,7 +16,7 @@ required property string hour
 required property int index
 
 required property var jsob;
-required property MyPayPopUp popup
+
 
 spacing:4
     Text {
@@ -82,13 +82,13 @@ spacing:4
                     {
                         root_box.ListView.view.model.setProperty(root_box.index,"selected",!root_box.selected)
                     }
-                    if(root_box.sentbook)
+                    /*if(root_box.sentbook)
                     {
                         root_box.popup.descr_= qsTr("<b>From: </b>")  + root_box.jsob.start + "<br><b>To: </b>" +
                                 root_box.jsob.finish + "<br><b>Code: </b>"  + root_box.jsob.code_str;
                         root_box.popup.addr_=root_box.jsob.code_str;
                         root_box.popup.visible=true;
-                    }
+                    }*/
                 }
             }
     }
