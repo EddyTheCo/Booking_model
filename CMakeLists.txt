@@ -18,7 +18,7 @@ qt6_add_qml_module(booking_model
 	qml/Horario_list_view.qml
         qml/window.qml
 	RESOURCE_PREFIX
-	"/esthervtech.com/imports"
+	"/esterVtech.com/imports"
 	OUTPUT_TARGETS out_targets_var
 	IMPORTS MyDesigns
         IMPORT_PATH
