@@ -6,19 +6,19 @@ import MyDesigns
 
 RowLayout
 {    
-id:root_box
+    id:root_box
 
-required property bool can_book
-required property bool booked
-required property bool selected
-required property bool sentbook
-required property string hour
-required property int index
+    required property bool can_book
+    required property bool booked
+    required property bool selected
+    required property bool sentbook
+    required property string hour
+    required property int index
 
-required property var jsob;
+    required property var jsob;
 
 
-spacing:4
+    spacing:4
     Text {
         id:time_
         text: root_box.hour
@@ -42,6 +42,7 @@ spacing:4
         border.width: 1
         color:'white'
     }
+
     Rectangle
     {
 
@@ -75,23 +76,26 @@ spacing:4
         }
 
         MouseArea {
-                anchors.fill: parent
-                enabled:root_box.can_book
-                onClicked: {
-                    if(!root_box.booked&&!root_box.sentbook)
-                    {
-                        root_box.ListView.view.model.setProperty(root_box.index,"selected",!root_box.selected)
-                    }
-                    /*if(root_box.sentbook)
+            anchors.fill: parent
+            enabled:root_box.can_book
+            onClicked: {
+                if(!root_box.booked&&!root_box.sentbook)
+                {
+                    root_box.ListView.view.model.setProperty(root_box.index,"selected",!root_box.selected)
+                }
+                if(root_box.sentbook)
                     {
                         root_box.popup.descr_= qsTr("<b>From: </b>")  + root_box.jsob.start + "<br><b>To: </b>" +
                                 root_box.jsob.finish + "<br><b>Code: </b>"  + root_box.jsob.code_str;
                         root_box.popup.addr_=root_box.jsob.code_str;
                         root_box.popup.visible=true;
-                    }*/
-                }
+                    }
+
+
             }
+        }
     }
+
 
 
 

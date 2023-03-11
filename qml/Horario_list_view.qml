@@ -12,7 +12,7 @@ ListView {
 
     model: horario_model
     delegate: Horario_delegate {
-        width:horario.width
+        width:ListView.view.width
         height:width*0.2
         can_book:horario.can_book
     }
