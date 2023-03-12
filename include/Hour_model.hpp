@@ -3,19 +3,18 @@
 #include <QAbstractListModel>
 #include<QObject>
 #include <QtQml/qqmlregistration.h>
-#include <QAbstractItemModel>
 #include"booking.hpp"
 #include<QJsonObject>
 
 class Hour_box : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
     Q_PROPERTY(QString hour READ hour CONSTANT)
     Q_PROPERTY(bool booked READ booked WRITE set_booked NOTIFY booked_changed)
     Q_PROPERTY(bool selected READ selected WRITE set_selected NOTIFY selected_changed)
     Q_PROPERTY(bool sentbook READ sentbook WRITE set_sentbook NOTIFY sentbook_changed)
     Q_PROPERTY(QJsonObject jsob READ jsob NOTIFY jsobChanged)
+    QML_ELEMENT
 
 
 public:
@@ -50,8 +49,8 @@ private:
 class Hour_model : public QAbstractListModel
 {
     Q_OBJECT
-    QML_ELEMENT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    QML_ELEMENT
 
 public:
     enum ModelRoles {

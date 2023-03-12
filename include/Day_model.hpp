@@ -2,7 +2,6 @@
 
 #include<QObject>
 #include <QAbstractListModel>
-#include <QAbstractItemModel>
 #include <QTimer>
 #include <QtQml/qqmlregistration.h>
 #include"Hour_model.hpp"
@@ -24,17 +23,17 @@ public:
     };
 
 private:
-    Hour_model * const hour_model_m;
+    Hour_model *  hour_model_m;
     QDate day_m;
 
 };
 
 class Day_model : public QAbstractListModel
 {
-    Q_OBJECT
-    QML_ELEMENT
+    Q_OBJECT    
     Q_PROPERTY(int count READ count CONSTANT)
     Q_PROPERTY(int total_selected  READ total_selected  NOTIFY total_selected_changed)
+    QML_ELEMENT
 
 
 public:

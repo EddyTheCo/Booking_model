@@ -38,7 +38,7 @@ void Day_model::update_list(void)
     {
         pop_front();
         auto next_day=m_days.back()->day().addDays(1);
-        append(new Day_box(next_day,new Hour_model(0),this));
+        append(new Day_box(next_day,new Hour_model(0,this),this));
     }
 }
 int Day_model::count() const
