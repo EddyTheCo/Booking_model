@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE void get_new_bookings(void);
     Q_INVOKABLE void add_booking(const Booking nbook, bool sent);
 
+    Q_INVOKABLE void remove_sent_booking(const Booking);
 
     void add_to_total_selected(int sel){total_selected_+=sel; emit total_selected_changed(total_selected_);}
 
@@ -54,7 +55,6 @@ public:
 
 
 
-    void remove_sent_booking(const Booking);
 
     void append(Day_box* o);
     void pop_front(void);
