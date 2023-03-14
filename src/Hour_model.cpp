@@ -72,7 +72,6 @@ void Hour_model::rm_sent_booked_hours(const std::vector<int>& booked_hours)
 }
 void Hour_model::add_booked_hours(const QJsonObject& jsob_m,const std::vector<int>& booked_hours)
 {
-
     for(auto v:booked_hours)
     {
         auto ind=v-m_hours.front()->hour_;
@@ -81,16 +80,16 @@ void Hour_model::add_booked_hours(const QJsonObject& jsob_m,const std::vector<in
             if(jsob_m.isEmpty())
             {
                 setProperty(ind,"booked",true);
-                if(m_hours.at(ind)->selected())
-                {
-                    setProperty(ind,"selected",false);
-                }
             }
             else
             {
                 setProperty(ind,"sentbook",true);
                 setProperty(ind,"jsob",jsob_m);
             }
+                if(m_hours.at(ind)->selected())
+                {
+                    setProperty(ind,"selected",false);
+                }
         }
     }
 
