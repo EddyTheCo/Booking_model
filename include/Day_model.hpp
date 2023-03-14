@@ -34,7 +34,7 @@ class Day_model : public QAbstractListModel
     Q_PROPERTY(int count READ count CONSTANT)
     Q_PROPERTY(int total_selected  READ total_selected  NOTIFY total_selected_changed)
     QML_ELEMENT
-
+    QML_SINGLETON
 
 public:
 
@@ -44,8 +44,8 @@ public:
         hour_modelRole
     };
 
-    std::vector<Booking> get_new_bookings(void);
-
+    Q_INVOKABLE void get_new_bookings(void);
+    Q_INVOKABLE void add_booking(const Booking nbook, bool sent);
 
 
     void add_to_total_selected(int sel){total_selected_+=sel; emit total_selected_changed(total_selected_);}
@@ -53,7 +53,7 @@ public:
     int total_selected(void)const{return total_selected_;}
 
 
-    void add_booking(const Booking nbook, bool sent);
+
     void remove_sent_booking(const Booking);
 
     void append(Day_box* o);
@@ -71,7 +71,7 @@ public:
 signals:
     void countChanged(int count);
     void total_selected_changed(int sele);
-
+    void hasnewbooks(std::vector<Booking>);
 
 
 private:
