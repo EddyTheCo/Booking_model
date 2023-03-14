@@ -13,7 +13,7 @@ class Hour_box : public QObject
     Q_PROPERTY(bool booked READ booked WRITE set_booked NOTIFY booked_changed)
     Q_PROPERTY(bool selected READ selected WRITE set_selected NOTIFY selected_changed)
     Q_PROPERTY(bool sentbook READ sentbook WRITE set_sentbook NOTIFY sentbook_changed)
-    Q_PROPERTY(QJsonObject jsob READ jsob NOTIFY jsobChanged)
+    Q_PROPERTY(QJsonObject jsob READ jsob WRITE set_jsob NOTIFY jsobChanged)
     QML_ELEMENT
 
 
@@ -27,8 +27,8 @@ public:
     bool selected() const{return selected_m;}
     bool sentbook() const{return sentbook_m;}
     QJsonObject jsob()const{return jsob_;}
-
-
+    void set_jsob(QJsonObject jsob_m){if(jsob_m!=jsob_){jsob_=jsob_m;emit jsobChanged();}}
+	
     void set_booked(bool booked_){if(booked_!=booked_m){booked_m=booked_;emit booked_changed();}};
     void set_selected(bool selected_){if(selected_!=selected_m){selected_m=selected_;emit selected_changed();}};
     void set_sentbook(bool sentbook_){if(sentbook_!=sentbook_m){sentbook_m=sentbook_;emit sentbook_changed();}};
