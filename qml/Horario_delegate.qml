@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls
 import QtQuick.Layouts
 import booking_model
 import MyDesigns
@@ -14,10 +15,24 @@ RowLayout
     required property bool sentbook
     required property string hour
     required property int index
-
     required property var jsob;
 
 
+    MyPayPopUp
+    {
+        id:bookdescr
+        descr_:""
+        addr_: ""
+        url_:""
+        visible:false
+        background:Rectangle
+        {
+            color:"#0f171e"
+            border.width: 1
+            border.color: "white"
+            radius:8
+        }
+    }
     spacing:4
     Text {
         id:time_
@@ -85,10 +100,9 @@ RowLayout
                 }
                 if(root_box.sentbook)
                     {
-                        root_box.popup.descr_= qsTr("<b>From: </b>")  + root_box.jsob.start + "<br><b>To: </b>" +
-                                root_box.jsob.finish + "<br><b>Code: </b>"  + root_box.jsob.code_str;
-                        root_box.popup.addr_=root_box.jsob.code_str;
-                        root_box.popup.visible=true;
+                        bookdescr.descr_="Code: "  + root_box.jsob.code_str;
+                        bookdescr.addr_=root_box.jsob.code_str;
+                        bookdescr.visible=true;
                     }
 
 
