@@ -109,7 +109,7 @@ void Day_model::add_booking(const Booking nbook,bool sent)
         m_days.at(ind)->hour_model()->add_booked_hours((sent)?nbook.get_jsob():QJsonObject(),booked_hours);
     }
 }
-std::vector<Booking> Day_model::get_new_bookings(void)
+void Day_model::get_new_bookings(void)
 {
     std::vector<Booking> var;
     for(auto v:m_days)
@@ -118,6 +118,6 @@ std::vector<Booking> Day_model::get_new_bookings(void)
         var.insert(var.end(), day_book.begin(), day_book.end());
     }
 
-    return var;
+    if(var.size())emit hasnewbooks(var);
 
 }
