@@ -61,7 +61,7 @@ public:
     explicit Hour_model(int hstart,QObject *parent = nullptr);
     Q_INVOKABLE bool setProperty(int i, QString role, const QVariant value);
 
-    void add_booked_hours(const QJsonObject &jsob_m, const std::vector<int>& booked_hours);
+    void add_booked_hours(const Booking &jsob_m, const std::vector<int>& booked_hours);
     void rm_sent_booked_hours(const std::vector<int>& booked_hours);
     std::vector<Booking> get_bookings_from_selected(QDate day);
 

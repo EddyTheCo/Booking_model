@@ -21,9 +21,8 @@ RowLayout
     MyPayPopUp
     {
         id:bookdescr
-        descr_:""
-        addr_: ""
-        url_:""
+        address: ""
+        description:""
         visible:false
         background:Rectangle
         {

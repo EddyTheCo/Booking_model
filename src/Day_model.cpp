@@ -106,7 +106,7 @@ void Day_model::add_booking(const Booking nbook,bool sent)
     {
         auto ind=list_start_day.daysTo(d);
         auto booked_hours=nbook.get_hours(d);
-        m_days.at(ind)->hour_model()->add_booked_hours((sent)?nbook.get_jsob():QJsonObject(),booked_hours);
+        m_days.at(ind)->hour_model()->add_booked_hours((sent)?nbook:Booking(),booked_hours);
     }
 }
 void Day_model::get_new_bookings(void)

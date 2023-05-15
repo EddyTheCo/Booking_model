@@ -70,7 +70,7 @@ void Hour_model::rm_sent_booked_hours(const std::vector<int>& booked_hours)
     }
 
 }
-void Hour_model::add_booked_hours(const QJsonObject& jsob_m,const std::vector<int>& booked_hours)
+void Hour_model::add_booked_hours(const Booking &jsob_m, const std::vector<int>& booked_hours)
 {
     for(auto v:booked_hours)
     {
@@ -122,7 +122,11 @@ std::vector<Booking> Hour_model::get_bookings_from_selected(QDate day)
             {
                 finish_t=tstime.addSecs(-1);
                 init=!init;
-                var.push_back(Booking(QDateTime(day,start_t),QDateTime(day,finish_t)));
+                Booking bb{
+                    {"start",QDateTime(day,start_t).toSecsSinceEpoch()},
+                    {"finish",QDateTime(day,finish_t).toSecsSinceEpoch()}
+                };
+                var.push_back(bb);
             }
         }
         tstime=tstime.addSecs(60*60);
@@ -134,7 +138,11 @@ std::vector<Booking> Hour_model::get_bookings_from_selected(QDate day)
             finish_t=tstime.addSecs(-1*60*60);
             finish_t=tstime.addSecs(-1);
         }
-        var.push_back(Booking(QDateTime(day,start_t),QDateTime(day,finish_t)));
+        Booking bb{
+            {"start",QDateTime(day,start_t).toSecsSinceEpoch()},
+            {"finish",QDateTime(day,finish_t).toSecsSinceEpoch()}
+        };
+        var.push_back(bb);
     }
     return var;
 }
