@@ -15,23 +15,8 @@ RowLayout
     required property bool sentbook
     required property string hour
     required property int index
-    required property var jsob;
 
 
-    MyPayPopUp
-    {
-        id:bookdescr
-        address: ""
-        description:""
-        visible:false
-        background:Rectangle
-        {
-            color:"#0f171e"
-            border.width: 1
-            border.color: "white"
-            radius:8
-        }
-    }
     spacing:4
     Text {
         id:time_
@@ -59,7 +44,6 @@ RowLayout
 
     Rectangle
     {
-
         Layout.preferredWidth: 150
         Layout.fillHeight: true
         Layout.fillWidth: true
@@ -97,13 +81,6 @@ RowLayout
                 {
                     root_box.ListView.view.model.setProperty(root_box.index,"selected",!root_box.selected)
                 }
-                if(root_box.sentbook)
-                    {
-                        bookdescr.descr_="Code: "  + root_box.jsob.code_str;
-                        bookdescr.addr_=root_box.jsob.code_str;
-                        bookdescr.visible=true;
-                    }
-
 
             }
         }

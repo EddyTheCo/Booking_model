@@ -13,7 +13,7 @@ class Hour_box : public QObject
     Q_PROPERTY(bool booked READ booked WRITE set_booked NOTIFY booked_changed)
     Q_PROPERTY(bool selected READ selected WRITE set_selected NOTIFY selected_changed)
     Q_PROPERTY(bool sentbook READ sentbook WRITE set_sentbook NOTIFY sentbook_changed)
-    Q_PROPERTY(QJsonObject jsob READ jsob WRITE set_jsob NOTIFY jsobChanged)
+    Q_PROPERTY(QString outId READ outId WRITE setOutId NOTIFY outIdChanged)
     QML_ELEMENT
 
 
@@ -26,8 +26,8 @@ public:
     bool booked() const{return booked_m;}
     bool selected() const{return selected_m;}
     bool sentbook() const{return sentbook_m;}
-    QJsonObject jsob()const{return jsob_;}
-    void set_jsob(QJsonObject jsob_m){if(jsob_m!=jsob_){jsob_=jsob_m;emit jsobChanged();}}
+    QString outId()const{return outId_;}
+    void setOutId(QString id_m){if(id_m!=outId_){outId_=id_m;emit outIdChanged();}}
 	
     void set_booked(bool booked_){if(booked_!=booked_m){booked_m=booked_;emit booked_changed();}};
     void set_selected(bool selected_){if(selected_!=selected_m){selected_m=selected_;emit selected_changed();}};
@@ -37,12 +37,12 @@ signals:
     void booked_changed(void);
     void selected_changed(void);
     void sentbook_changed(void);
-    void jsobChanged(void);
+    void outIdChanged(void);
 
 private:
     QString hour_m;
     bool booked_m,selected_m,sentbook_m;
-    QJsonObject jsob_;
+    QString outId_;
 
 };
 
@@ -55,15 +55,15 @@ class Hour_model : public QAbstractListModel
 public:
     enum ModelRoles {
         hourRole = Qt::UserRole + 1,
-        bookedRole,selectedRole,sentbookRole,jsobRole
+        bookedRole,selectedRole,sentbookRole,outIdRole
     };
     int count() const;
     explicit Hour_model(int hstart,QObject *parent = nullptr);
     Q_INVOKABLE bool setProperty(int i, QString role, const QVariant value);
 
-    void add_booked_hours(const Booking &jsob_m, const std::vector<int>& booked_hours);
+    void add_booked_hours(const QString &id, const std::vector<int>& booked_hours);
     void rm_sent_booked_hours(const std::vector<int>& booked_hours);
-    std::vector<Booking> get_bookings_from_selected(QDate day);
+    void get_bookings_from_selected(QDate day,QJsonArray& var);
 
     void pop_front(void);
     void update_list(void);

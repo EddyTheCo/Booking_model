@@ -1,4 +1,5 @@
 #include "Hour_model.hpp"
+#include <QJsonArray>
 
 Hour_model::Hour_model(int hstart, QObject *parent)
     : QAbstractListModel(parent),m_count(24)
@@ -28,7 +29,7 @@ QHash<int, QByteArray> Hour_model::roleNames() const {
     roles[bookedRole] = "booked";
     roles[selectedRole] = "selected";
     roles[sentbookRole] = "sentbook";
-    roles[jsobRole] = "jsob";
+    roles[outIdRole] = "outId";
     return roles;
 }
 QVariant Hour_model::data(const QModelIndex &index, int role) const
@@ -70,21 +71,21 @@ void Hour_model::rm_sent_booked_hours(const std::vector<int>& booked_hours)
     }
 
 }
-void Hour_model::add_booked_hours(const Booking &jsob_m, const std::vector<int>& booked_hours)
+void Hour_model::add_booked_hours(const QString &id, const std::vector<int>& booked_hours)
 {
     for(auto v:booked_hours)
     {
         auto ind=v-m_hours.front()->hour_;
         if(ind>=0)
         {
-            if(jsob_m.isEmpty())
+            if(id.isNull())
             {
                 setProperty(ind,"booked",true);
             }
             else
             {
                 setProperty(ind,"sentbook",true);
-                setProperty(ind,"jsob",jsob_m);
+                setProperty(ind,"id",id);
             }
                 if(m_hours.at(ind)->selected())
                 {
@@ -98,9 +99,9 @@ QModelIndex Hour_model::index(int row, int column , const QModelIndex &parent ) 
 {
     return createIndex(row,column);
 }
-std::vector<Booking> Hour_model::get_bookings_from_selected(QDate day)
+void Hour_model::get_bookings_from_selected(QDate day,QJsonArray& var)
 {
-    std::vector<Booking> var;
+
     bool init=false;
     auto tstime=QTime(m_hours.front()->hour_,0);
     QTime start_t;
@@ -122,11 +123,8 @@ std::vector<Booking> Hour_model::get_bookings_from_selected(QDate day)
             {
                 finish_t=tstime.addSecs(-1);
                 init=!init;
-                Booking bb{
-                    {"start",QDateTime(day,start_t).toSecsSinceEpoch()},
-                    {"finish",QDateTime(day,finish_t).toSecsSinceEpoch()}
-                };
-                var.push_back(bb);
+                var.push_back(QDateTime(day,start_t).toSecsSinceEpoch());
+                var.push_back(QDateTime(day,finish_t).toSecsSinceEpoch());
             }
         }
         tstime=tstime.addSecs(60*60);
@@ -138,13 +136,10 @@ std::vector<Booking> Hour_model::get_bookings_from_selected(QDate day)
             finish_t=tstime.addSecs(-1*60*60);
             finish_t=tstime.addSecs(-1);
         }
-        Booking bb{
-            {"start",QDateTime(day,start_t).toSecsSinceEpoch()},
-            {"finish",QDateTime(day,finish_t).toSecsSinceEpoch()}
-        };
-        var.push_back(bb);
+        var.push_back(QDateTime(day,start_t).toSecsSinceEpoch());
+        var.push_back(QDateTime(day,finish_t).toSecsSinceEpoch());
     }
-    return var;
+
 }
 void Hour_model::pop_front(void) {
 

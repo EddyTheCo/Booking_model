@@ -84,38 +84,54 @@ void Day_model::pop_front(void) {
         endRemoveRows();
     }
 }
-void Day_model::remove_sent_booking(const Booking nbook)
+void Day_model::remove_sent_booking(const QString& outid)
 {
-    auto days=nbook.get_days();
-    auto list_start_day=m_days.front()->day();
-    for(auto d:days)
+    auto it=sentBookings_.find(outid);
+    if(it!=sentBookings_.end())
     {
-        auto ind=list_start_day.daysTo(d);
-        auto booked_hours=nbook.get_hours(d);
-        m_days.at(ind)->hour_model()->rm_sent_booked_hours(booked_hours); //Fix this. you are writing to hour model and broke the binding to the underlying model
+        auto vec=Booking::from_Array(it.value());
+        for(const auto & nbook:vec)
+        {
+            auto days=nbook.get_days();
+            auto list_start_day=m_days.front()->day();
+            for(auto d:days)
+            {
+                auto ind=list_start_day.daysTo(d);
+                auto booked_hours=nbook.get_hours(d);
+                m_days.at(ind)->hour_model()->rm_sent_booked_hours(booked_hours); //Fix this. you are writing to hour model and broke the binding to the underlying model
+            }
+        }
+        sentBookings_.remove(outid);
     }
+
 }
 
-void Day_model::add_booking(const Booking nbook,bool sent)
+void Day_model::add_booking(const QJsonArray& books,QString id)
 {
-    auto days=nbook.get_days();
+    auto vec=Booking::from_Array(books);
 
-    auto list_start_day=m_days.front()->day();
-
-    for(auto d:days)
+    for(const auto & nbook:vec)
     {
-        auto ind=list_start_day.daysTo(d);
-        auto booked_hours=nbook.get_hours(d);
-        m_days.at(ind)->hour_model()->add_booked_hours((sent)?nbook:Booking(),booked_hours);
+        auto days=nbook.get_days();
+
+        auto list_start_day=m_days.front()->day();
+
+        for(auto d:days)
+        {
+            auto ind=list_start_day.daysTo(d);
+            auto booked_hours=nbook.get_hours(d);
+            m_days.at(ind)->hour_model()->add_booked_hours(id,booked_hours);
+            if(!id.isNull())sentBookings_.insert(id,books);
+        }
     }
+
 }
 void Day_model::get_new_bookings(void)
 {
-    std::vector<Booking> var;
+    QJsonArray var;
     for(auto v:m_days)
     {
-        auto day_book=v->hour_model()->get_bookings_from_selected(v->day());
-        var.insert(var.end(), day_book.begin(), day_book.end());
+        v->hour_model()->get_bookings_from_selected(v->day(),var);
     }
 
     if(var.size())emit hasnewbooks(var);

@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QtQml/qqmlregistration.h>
 #include"Hour_model.hpp"
+#include<QJsonArray>
 
 class Day_box : public QObject
 {
@@ -45,9 +46,9 @@ public:
     };
 
     Q_INVOKABLE void get_new_bookings(void);
-    Q_INVOKABLE void add_booking(const Booking nbook, bool sent);
+    Q_INVOKABLE void add_booking(const QJsonArray &books, QString id="" );
 
-    Q_INVOKABLE void remove_sent_booking(const Booking);
+    Q_INVOKABLE void remove_sent_booking(const QString &outid);
 
     void add_to_total_selected(int sel){total_selected_+=sel; emit total_selected_changed(total_selected_);}
 
@@ -71,7 +72,7 @@ public:
 signals:
     void countChanged(int count);
     void total_selected_changed(int sele);
-    void hasnewbooks(std::vector<Booking>);
+    void hasnewbooks(QJsonArray);
 
 
 private:
@@ -79,6 +80,6 @@ private:
     QList<Day_box*> m_days;
     QTimer *timer_m;
     int total_selected_;
-
+    QHash <QString,QJsonArray> sentBookings_;
 };
 
