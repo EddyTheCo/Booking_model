@@ -85,7 +85,7 @@ void Hour_model::add_booked_hours(const QString &id, const std::vector<int>& boo
             else
             {
                 setProperty(ind,"sentbook",true);
-                setProperty(ind,"id",id);
+                setProperty(ind,"outId",id);
             }
                 if(m_hours.at(ind)->selected())
                 {
