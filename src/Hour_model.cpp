@@ -78,7 +78,7 @@ void Hour_model::add_booked_hours(const QString &id, const std::vector<int>& boo
         auto ind=v-m_hours.front()->hour_;
         if(ind>=0)
         {
-            if(id.isNull())
+            if(id.isEmpty())
             {
                 setProperty(ind,"booked",true);
             }
