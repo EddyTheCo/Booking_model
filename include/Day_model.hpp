@@ -7,7 +7,7 @@
 #include"Hour_model.hpp"
 #include<QJsonArray>
 
-class Day_box : public QObject
+class BMODE_EXPORT Day_box : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -29,7 +29,7 @@ private:
 
 };
 
-class Day_model : public QAbstractListModel
+class BMODE_EXPORT Day_model : public QAbstractListModel
 {
     Q_OBJECT    
     Q_PROPERTY(int count READ count CONSTANT)
