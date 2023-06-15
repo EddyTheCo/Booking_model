@@ -6,7 +6,13 @@
 #include"booking.hpp"
 #include<QJsonObject>
 
-class Hour_box : public QObject
+#include <QtCore/QtGlobal>
+#if defined(WINDOWS_BMODE)
+# define BMODE_EXPORT Q_DECL_EXPORT
+#else
+#define BMODE_EXPORT Q_DECL_IMPORT
+#endif
+class BMODE_EXPORT Hour_box : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString hour READ hour CONSTANT)
@@ -46,7 +52,7 @@ private:
 
 };
 
-class Hour_model : public QAbstractListModel
+class BMODE_EXPORT Hour_model : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
