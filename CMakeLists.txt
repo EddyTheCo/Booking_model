@@ -27,7 +27,7 @@ find_package(Qt6 COMPONENTS Core Gui Quick)
 FetchContent_Declare(
 	MyDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-	GIT_TAG v0.1.1
+	GIT_TAG v0.2.2
 	FIND_PACKAGE_ARGS 0 CONFIG
 	)
 FetchContent_MakeAvailable(MyDesigns)
