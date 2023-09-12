@@ -119,15 +119,17 @@ void Day_model::add_booking(const QJsonArray& books,QString id)
     for(const auto & nbook:vec)
     {
         auto days=nbook.get_days();
-
         auto list_start_day=m_days.front()->day();
 
         for(auto d:days)
         {
             auto ind=list_start_day.daysTo(d);
-            auto booked_hours=nbook.get_hours(d);
-            m_days.at(ind)->hour_model()->add_booked_hours(id,booked_hours);
-            if(!id.isEmpty())sentBookings_.insert(id,books);
+            if(ind>=0)
+            {
+                auto booked_hours=nbook.get_hours(d);
+                m_days.at(ind)->hour_model()->add_booked_hours(id,booked_hours);
+                if(!id.isEmpty())sentBookings_.insert(id,books);
+            }
         }
     }
 
