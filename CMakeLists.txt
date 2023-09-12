@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.24)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -13,7 +13,7 @@ version_from_git(
 	)
 
 
-project(DLockers VERSION ${VERSION} LANGUAGES CXX)
+project(Booking_model VERSION ${VERSION} LANGUAGES CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_STANDARD 17)
@@ -28,15 +28,15 @@ FetchContent_Declare(
 	MyDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
 	GIT_TAG v0.2.2
-	FIND_PACKAGE_ARGS 0 CONFIG
+	FIND_PACKAGE_ARGS 0.2 CONFIG
 	)
 FetchContent_MakeAvailable(MyDesigns)
 
 FetchContent_Declare(
 	booking
 	GIT_REPOSITORY https://github.com/EddyTheCo/booking.git
-	GIT_TAG v0.1.1
-	FIND_PACKAGE_ARGS 0 CONFIG
+	GIT_TAG v0.1.2
+	FIND_PACKAGE_ARGS 0.1 CONFIG
 	)
 FetchContent_MakeAvailable(booking)
 
@@ -58,14 +58,11 @@ if(Qt6_FOUND)
 		OUTPUT_TARGETS out_targets_var
 		OUTPUT_DIRECTORY
 		${CMAKE_CURRENT_BINARY_DIR}/booking_model
+		IMPORT_PATH ${QML_IMPORT_PATH}
 		)
 
 	target_compile_definitions(booking_model PRIVATE WINDOWS_BMODE)
 	target_link_libraries(booking_model PUBLIC Qt6::Gui Qt6::Quick)
-
-	target_include_directories(booking_model PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-		"$<INSTALL_INTERFACE:include/DLockers>")
-
 
 	target_link_libraries(booking_model PUBLIC MyDesigns booking)
 
@@ -84,13 +81,13 @@ if(Qt6_FOUND)
 
 	install(EXPORT booking_modelTargets
 		FILE booking_modelTargets.cmake
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/booking_model
 		)
 	include(CMakePackageConfigHelpers)
 
 	configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 		"${CMAKE_CURRENT_BINARY_DIR}/booking_modelConfig.cmake"
-		INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+		INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/booking_model
 		)
 	write_basic_package_version_file(
 		"${CMAKE_CURRENT_BINARY_DIR}/booking_modelConfigVersion.cmake"
@@ -100,7 +97,7 @@ if(Qt6_FOUND)
 	install(FILES
 		${CMAKE_CURRENT_BINARY_DIR}/booking_modelConfig.cmake
 		${CMAKE_CURRENT_BINARY_DIR}/booking_modelConfigVersion.cmake
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/booking_model
 		)
 	export(EXPORT booking_modelTargets
 		FILE "${CMAKE_CURRENT_BINARY_DIR}/booking_modelTargets.cmake"
