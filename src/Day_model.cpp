@@ -1,12 +1,5 @@
 #include "Day_model.hpp"
 
-namespace fooBookingModel
-{
-QString fooPrint(void)
-{
-    return "fooPrint";
-}
-}
 Day_model::Day_model(QObject *parent)
     :QAbstractListModel(parent),m_count(7),timer_m(new QTimer(this)),total_selected_(0)
 {
