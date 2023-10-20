@@ -7,11 +7,6 @@
 #include"Hour_model.hpp"
 #include<QJsonArray>
 
-//foo namespace to force the linker to link the backing library composed only of qml files
-namespace fooBookingModel
-{
-QString fooPrint(void);
-};
 
 class BMODE_EXPORT Day_box : public QObject
 {

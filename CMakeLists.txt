@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
+include(${CMAKE_CURRENT_BINARY_DIR}/local_conf.cmake OPTIONAL)
+
 include(FetchContent)
 FetchContent_Declare(
 	ccommon
@@ -27,8 +29,8 @@ find_package(Qt6 COMPONENTS Core Gui Quick)
 FetchContent_Declare(
 	MyDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-	GIT_TAG v0.2.2
-	FIND_PACKAGE_ARGS 0.2 CONFIG
+	GIT_TAG v0.3.1
+	FIND_PACKAGE_ARGS 0.3 CONFIG
 	)
 FetchContent_MakeAvailable(MyDesigns)
 
@@ -57,28 +59,31 @@ if(Qt6_FOUND)
 		"/esterVtech.com/imports"
 		OUTPUT_TARGETS out_targets_var
 		OUTPUT_DIRECTORY
-		${CMAKE_CURRENT_BINARY_DIR}/booking_model
-		IMPORT_PATH ${QML_IMPORT_PATH}
+		${CMAKE_BINARY_DIR}/booking_model
+		IMPORT_PATH ${CMAKE_BINARY_DIR}
 		)
 
 	target_compile_definitions(booking_model PRIVATE WINDOWS_BMODE)
 	target_link_libraries(booking_model PUBLIC Qt6::Gui Qt6::Quick)
 
-	target_link_libraries(booking_model PUBLIC MyDesigns booking)
+	target_link_libraries(booking_model PUBLIC MyDesigns booking
+		$<$<STREQUAL:$<TARGET_PROPERTY:MyDesigns,TYPE>,STATIC_LIBRARY>:MyDesignsplugin>
+		)
 
 
 	target_include_directories(booking_model PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/booking_model>")
 
-	install(TARGETS booking_model ${out_targets_var}
+	install(TARGETS booking_model booking_modelplugin ${out_targets_var}
 		EXPORT booking_modelTargets
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		)
 	install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
 		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/booking_model
 		)
-
-
+	install(DIRECTORY ${CMAKE_BINARY_DIR}/booking_model/
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/QMLPlugins/booking_model
+		)
 	install(EXPORT booking_modelTargets
 		FILE booking_modelTargets.cmake
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/booking_model
@@ -118,6 +123,3 @@ if(BUILD_DOCS)
 	include(${build_docs})
 endif()
 
-list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/qml ${CMAKE_CURRENT_BINARY_DIR}/)
-list(REMOVE_DUPLICATES QML_IMPORT_PATH)
-set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "" FORCE)
